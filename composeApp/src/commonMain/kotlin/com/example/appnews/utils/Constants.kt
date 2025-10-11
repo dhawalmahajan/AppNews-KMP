@@ -1,4 +1,4 @@
-package com.example.appnews.Utils
+package com.example.appnews.utils
 
 enum class Type {
     Mobile, Desktop,Web

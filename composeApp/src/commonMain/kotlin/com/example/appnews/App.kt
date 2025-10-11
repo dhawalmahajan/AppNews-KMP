@@ -18,12 +18,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.compose_multiplatform
+import com.example.appnews.utils.getRandomId
+import com.example.appnews.utils.getType
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
+        val id = remember { getRandomId() }
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -35,13 +38,13 @@ fun App() {
                 Text("Click me!")
             }
             AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
+                val greeting = remember { getType() }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
+                    Text("Compose: $greeting :: $id")
                 }
             }
         }
