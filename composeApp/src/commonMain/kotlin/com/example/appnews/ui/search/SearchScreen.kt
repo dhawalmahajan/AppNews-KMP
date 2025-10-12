@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 fun SearchScreen() {
     Box() {
         Text(
-            "Headline Screen",
+            "Search Screen",
             fontSize = 32.sp,
             modifier = Modifier.align(Alignment.Center),
             fontWeight = FontWeight.Bold,

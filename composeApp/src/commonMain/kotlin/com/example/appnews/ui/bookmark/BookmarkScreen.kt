@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 fun BookmarkScreen() {
     Box() {
         Text(
-            "Headline Screen",
+            "Bookmark Screen",
             fontSize = 32.sp,
             modifier = Modifier.align(Alignment.Center),
             fontWeight = FontWeight.Bold,

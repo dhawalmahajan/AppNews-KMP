@@ -24,8 +24,10 @@ import com.example.appnews.navigation.NewsBottomNavigationBar
 import com.example.appnews.navigation.graphs.MainNavGraph
 import com.example.appnews.utils.bottomNavigationItemList
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun MainScreen(rootNavController: NavHostController) {
     val homeNavController = rememberNavController()
