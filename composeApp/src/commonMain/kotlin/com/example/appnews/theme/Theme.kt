@@ -37,7 +37,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun NewsAppTheme(
-    appTheme: String?,
+    appTheme: String? = null,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

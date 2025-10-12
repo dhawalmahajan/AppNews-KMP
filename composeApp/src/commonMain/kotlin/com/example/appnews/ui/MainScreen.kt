@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -29,7 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(rootNavController: NavHostController) {
     val homeNavController = rememberNavController()
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
-    val currentRoute by rememberSaveable(navBackStackEntry) {
+    var currentRoute by rememberSaveable(navBackStackEntry) {
         mutableStateOf(navBackStackEntry?.destination?.route)
     }
     val topBarTitle by remember(currentRoute) {
@@ -68,7 +69,7 @@ fun MainScreen(rootNavController: NavHostController) {
             bottomNavigationItemList = bottomNavigationItemList,
             currentRoute = currentRoute,
             onItemCLicked = { currentBottomNavigationItem ->
-
+                currentRoute = currentBottomNavigationItem.route
                 homeNavController.navigate(currentBottomNavigationItem.route) {
                     homeNavController.graph.startDestinationRoute?.let {
                         popUpTo(it) {
