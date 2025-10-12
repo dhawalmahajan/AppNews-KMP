@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
+import com.example.appnews.navigation.NewsBottomNavigationBar
+import com.example.appnews.utils.bottomNavigationItemList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +39,16 @@ fun MainScreen() {
 
             }
         )
-    }, bottomBar = {}) {
+    }, bottomBar = {
+        NewsBottomNavigationBar(
+            bottomNavigationItemList = bottomNavigationItemList,
+            currentRoute = bottomNavigationItemList[0].route,
+            onItemCLicked = { currentBottomNavigationItem ->
+
+
+            }
+        )
+    }) {
         Column {
             Text("Hello from MainScreen")
         }
