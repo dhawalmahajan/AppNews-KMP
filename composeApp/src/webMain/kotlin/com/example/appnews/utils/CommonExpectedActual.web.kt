@@ -1,9 +1,9 @@
 package com.example.appnews.utils
-
+import kotlin.js.*
 actual fun getType(): Type {
     return Type.Web
 }
 
-actual fun getRandomId(): String {
-    TODO("Not yet implemented")
-}
+
+@OptIn(ExperimentalWasmJsInterop::class)
+actual fun getRandomId(): String = js("crypto.randomUUID()") as String
