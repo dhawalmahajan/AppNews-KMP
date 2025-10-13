@@ -10,6 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,8 +37,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MainScreen(rootNavController: NavHostController) {
     val homeNavController = rememberNavController()
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
-    var currentRoute by rememberSaveable(navBackStackEntry) {
+    var previousRoute by rememberSaveable {
         mutableStateOf(navBackStackEntry?.destination?.route)
+    }
+    val currentRoute by remember(navBackStackEntry) {
+        derivedStateOf { navBackStackEntry?.destination?.route }
     }
     val topBarTitle by remember(currentRoute) {
         derivedStateOf {
@@ -46,6 +51,26 @@ fun MainScreen(rootNavController: NavHostController) {
                 bottomNavigationItemList[0].title
             }
 
+        }
+    }
+    DisposableEffect(Unit) {
+
+        println("previous route = $previousRoute")
+        onDispose {
+            previousRoute = currentRoute
+        }
+    }
+    LaunchedEffect(Unit) {
+        if (previousRoute != null) {
+            homeNavController.navigate(previousRoute!!) {
+                homeNavController.graph.startDestinationRoute?.let {
+                    popUpTo(it) {
+                        saveState = true
+                    }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
     }
     Scaffold(topBar = {
@@ -78,7 +103,6 @@ fun MainScreen(rootNavController: NavHostController) {
             bottomNavigationItemList = bottomNavigationItemList,
             currentRoute = currentRoute,
             onItemCLicked = { currentBottomNavigationItem ->
-                currentRoute = currentBottomNavigationItem.route
                 homeNavController.navigate(currentBottomNavigationItem.route) {
                     homeNavController.graph.startDestinationRoute?.let {
                         popUpTo(it) {
