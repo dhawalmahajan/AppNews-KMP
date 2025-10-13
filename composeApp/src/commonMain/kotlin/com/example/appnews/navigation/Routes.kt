@@ -11,3 +11,7 @@ sealed class MainRouteScreens(val route: String) {
     object Search : MainRouteScreens("search")
     object Bookmark : MainRouteScreens("bookmark")
 }
+
+sealed class SettingRouteScreen(val route: String) {
+    object Setting : SettingRouteScreen("setting")
+}

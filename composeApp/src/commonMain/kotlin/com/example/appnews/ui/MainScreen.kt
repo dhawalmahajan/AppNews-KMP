@@ -20,7 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import appnews.composeapp.generated.resources.Res
+import appnews.composeapp.generated.resources.setting
 import com.example.appnews.navigation.NewsBottomNavigationBar
+import com.example.appnews.navigation.SettingRouteScreen
 import com.example.appnews.navigation.graphs.MainNavGraph
 import com.example.appnews.utils.bottomNavigationItemList
 import org.jetbrains.compose.resources.stringResource
@@ -56,10 +59,14 @@ fun MainScreen(rootNavController: NavHostController) {
                 )
             }, actions = {
                 IconButton(
-                    onClick = { /* TODO */ }
+                    onClick = {
+                        rootNavController.navigate(SettingRouteScreen.Setting.route)
+                    }
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Settings, contentDescription = "Settings"
+                        imageVector = Icons.Filled.Settings, contentDescription = stringResource(
+                            Res.string.setting
+                        )
                     )
 
                 }
