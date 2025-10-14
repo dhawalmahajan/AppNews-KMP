@@ -1,23 +1,38 @@
 package com.example.appnews.ui.search
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import com.example.appnews.theme.mediumPadding
+import com.example.appnews.ui.common.ArticleListScreen
+import com.example.appnews.ui.search.components.SearchBarScreen
+import com.example.appnews.utils.articles
 
 @Composable
 fun SearchScreen() {
-    Box() {
-        Text(
-            "Search Screen",
-            fontSize = 32.sp,
-            modifier = Modifier.align(Alignment.Center),
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
+    var searchQuery by rememberSaveable() {
+        mutableStateOf("")
+    }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(mediumPadding)
+    ) {
+        SearchBarScreen(
+            text = searchQuery,
+            onValueChange = {
+                searchQuery = it
+            },
+            onSearch = { query ->
+                if (query.trim().isNotEmpty()) {
+                    println(query)
+                }
+
+            }
+
         )
+        ArticleListScreen(articles)
     }
 }
