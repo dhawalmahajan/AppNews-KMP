@@ -14,8 +14,14 @@ fun HeadlineScreen() {
     val uiState by headlineViewModel.newsStateFlow.collectAsState()
     uiState.DisplayResult(onIdle = {}, onLoading = {
         ShimmerEffect()
-    }, onSuccess = {
-        ArticleListScreen(articleList = it)
+    }, onSuccess = { articleList ->
+        if (articleList.isEmpty()) {
+            EmptyContent("No Data")
+        } else {
+            ArticleListScreen(articleList = articleList)
+        }
+
+
     }, onError = {
         EmptyContent(it)
     })

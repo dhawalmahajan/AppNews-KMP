@@ -1,23 +1,28 @@
 package com.example.appnews.ui.bookmark
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.appnews.ui.common.ArticleListScreen
+import com.example.appnews.ui.common.EmptyContent
+import com.example.appnews.ui.common.ShimmerEffect
 
 @Composable
 fun BookmarkScreen() {
-    Box() {
-        Text(
-            "Bookmark Screen",
-            fontSize = 32.sp,
-            modifier = Modifier.align(Alignment.Center),
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
+    val bookmarkViewModel = viewModel { BookmarkViewModel() }
+    val uiState by bookmarkViewModel.newsStateFlow.collectAsState()
+    uiState.DisplayResult(onIdle = {}, onLoading = {
+        ShimmerEffect()
+    }, onSuccess = { articleList ->
+        if (articleList.isEmpty()) {
+            EmptyContent("No Data")
+        } else {
+            ArticleListScreen(articleList = articleList)
+        }
+
+
+    }, onError = {
+        EmptyContent(it)
+    })
 }
