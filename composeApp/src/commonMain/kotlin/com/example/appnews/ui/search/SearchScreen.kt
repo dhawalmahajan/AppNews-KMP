@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.appnews.theme.mediumPadding
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
@@ -16,7 +17,7 @@ import com.example.appnews.ui.common.ShimmerEffect
 import com.example.appnews.ui.search.components.SearchBarScreen
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(rootNavController: NavHostController) {
     var searchQuery by rememberSaveable() {
         mutableStateOf("")
     }
@@ -48,7 +49,7 @@ fun SearchScreen() {
             if (articleList.isEmpty()) {
                 EmptyContent("No Data")
             } else {
-                ArticleListScreen(articleList = articleList)
+                ArticleListScreen(articleList = articleList, rootNavController)
             }
         }, onError = {
             EmptyContent(it)

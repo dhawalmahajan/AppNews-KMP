@@ -15,3 +15,7 @@ sealed class MainRouteScreens(val route: String) {
 sealed class SettingRouteScreen(val route: String) {
     object Setting : SettingRouteScreen("setting")
 }
+
+sealed class NewsRouteScreen(val route: String) {
+    object newsDetail : NewsRouteScreen("newsDetail")
+}
