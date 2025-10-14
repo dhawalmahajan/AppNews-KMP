@@ -27,6 +27,8 @@ import appnews.composeapp.generated.resources.setting
 import appnews.composeapp.generated.resources.theme
 import com.example.appnews.ui.settings.components.DeleteBookmarkDialog
 import com.example.appnews.ui.settings.components.SettingItem
+import com.example.appnews.ui.settings.components.ThemeSelectionDialog
+import com.example.appnews.utils.Theme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -43,7 +45,14 @@ fun SettingScreen(rootNavController: NavHostController) {
     }
     when {
         showThemeSelectionDialog -> {
-
+            ThemeSelectionDialog(
+                currentTheme = Theme.LIGHT_MODE.name,
+                onThemeChange = {
+                    showThemeSelectionDialog = false
+                },
+                onDismissRequest = {
+                    showThemeSelectionDialog = false
+                })
         }
 
         showDeleteBookmarkDialog -> {
@@ -71,8 +80,10 @@ fun SettingScreen(rootNavController: NavHostController) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(Res.string.setting),
+                                tint = MaterialTheme.colorScheme.onSurface
 
-                                )
+
+                            )
                         }
                     }
                 )
