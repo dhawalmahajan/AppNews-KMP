@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +38,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun SettingScreen(rootNavController: NavHostController) {
+fun SettingScreen(rootNavController: NavHostController, settingsViewModel: SettingsViewModel) {
+    val currentTheme by settingsViewModel.currentTheme.collectAsState()
     var showDeleteBookmarkDialog by remember {
         mutableStateOf(false)
     }
@@ -47,8 +49,9 @@ fun SettingScreen(rootNavController: NavHostController) {
     when {
         showThemeSelectionDialog -> {
             ThemeSelectionDialog(
-                currentTheme = Theme.LIGHT_MODE.name,
+                currentTheme = currentTheme ?: Theme.LIGHT_MODE.name,
                 onThemeChange = {
+                    settingsViewModel.changeThemeMode(it.name)
                     showThemeSelectionDialog = false
                 },
                 onDismissRequest = {

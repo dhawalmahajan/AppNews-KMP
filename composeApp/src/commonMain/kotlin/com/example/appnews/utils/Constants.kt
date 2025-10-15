@@ -23,6 +23,8 @@ import com.example.appnews.navigation.MainRouteScreens
 import org.jetbrains.compose.resources.StringResource
 import kotlin.random.Random
 
+const val dataStoreFileName = "setting.preferences_pb"
+
 enum class Type {
     Mobile, Desktop, Web
 }

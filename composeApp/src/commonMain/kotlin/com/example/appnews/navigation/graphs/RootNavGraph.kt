@@ -10,10 +10,11 @@ import com.example.appnews.navigation.SettingRouteScreen
 import com.example.appnews.ui.MainScreen
 import com.example.appnews.ui.articleDetail.ArticleDetailScreen
 import com.example.appnews.ui.settings.SettingScreen
+import com.example.appnews.ui.settings.SettingsViewModel
 import com.example.appnews.utils.articles
 
 @Composable
-fun RootNavGraph() {
+fun RootNavGraph(settingsViewModel: SettingsViewModel) {
     val rootNavController = rememberNavController()
     NavHost(
         navController = rootNavController,
@@ -24,7 +25,7 @@ fun RootNavGraph() {
             MainScreen(rootNavController)
         }
         composable(route = SettingRouteScreen.Setting.route) {
-            SettingScreen(rootNavController)
+            SettingScreen(rootNavController, settingsViewModel = settingsViewModel)
         }
         composable(route = NewsRouteScreen.newsDetail.route) {
             ArticleDetailScreen(rootNavController, article = articles[0])

@@ -2,6 +2,8 @@ package com.example.appnews.utils
 
 import android.app.Activity
 import android.content.Intent
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -30,4 +32,12 @@ private var activityProvider: () -> Activity = {
 
 fun setActivityProvider(provider: () -> Activity) {
     activityProvider = provider
+}
+
+actual fun dataStorePreference(): DataStore<Preferences> {
+    return AppSettings.getDataStore(producerPath = {
+        activityProvider.invoke().filesDir
+            .resolve(dataStoreFileName)
+            .absolutePath
+    })
 }
