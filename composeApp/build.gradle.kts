@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
@@ -181,12 +182,11 @@ buildkonfig {
                 load(propsFile.inputStream())
             }
         }
-//
     defaultConfigs {
-//        buildConfigField(
-//            FieldSpec.Type.STRING,
-//            "API_KEY",
-//            localProperties["API_KEY"]?.toString() ?: "",
-//        )
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "API_KEY",
+            localProperties["API_KEY"]?.toString() ?: "",
+        )
     }
 }
