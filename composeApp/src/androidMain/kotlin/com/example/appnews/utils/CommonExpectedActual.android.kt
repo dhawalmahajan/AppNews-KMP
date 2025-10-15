@@ -1,5 +1,7 @@
 package com.example.appnews.utils
 
+import android.app.Activity
+import android.content.Intent
 import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -10,4 +12,22 @@ actual fun getType(): Type {
 @OptIn(ExperimentalUuidApi::class)
 actual fun getRandomId(): String {
     return UUID.randomUUID().toString()
+}
+
+actual fun shareLink(url: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, url)
+    }
+    val intentChooser = Intent.createChooser(intent, "Share Link")
+    activityProvider.invoke().startActivity(intentChooser)
+
+}
+
+private var activityProvider: () -> Activity = {
+    throw IllegalStateException("Not initialized yet")
+}
+
+fun setActivityProvider(provider: () -> Activity) {
+    activityProvider = provider
 }

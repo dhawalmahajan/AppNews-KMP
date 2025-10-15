@@ -1,10 +1,10 @@
 package com.example.appnews.utils
 
-import java.util.UUID
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
+import java.util.UUID
 
-actual fun getType(): Type {
+actual fun getType(): com.example.appnews.utils.Type {
     return Type.Desktop
 }
 

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
@@ -34,12 +35,14 @@ import coil3.compose.AsyncImage
 import com.example.appnews.data.model.Article
 import com.example.appnews.theme.detailImageSize
 import com.example.appnews.theme.xLargePadding
+import com.example.appnews.utils.shareLink
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleDetailScreen(navController: NavController, article: Article) {
+    val uriHandler = LocalUriHandler.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -67,14 +70,19 @@ fun ArticleDetailScreen(navController: NavController, article: Article) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        shareLink(article.url)
+
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.Share,
                             contentDescription = null,
 
                             )
                     }
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        uriHandler.openUri(article.url)
+                    }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_browse),
                             contentDescription = null,
@@ -94,7 +102,8 @@ fun ArticleDetailScreen(navController: NavController, article: Article) {
 
         ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(innerPadding), contentPadding = PaddingValues(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            contentPadding = PaddingValues(
                 xLargePadding
             ),
             verticalArrangement = Arrangement.spacedBy(xLargePadding)
