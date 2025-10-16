@@ -5,9 +5,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import appnews.composeapp.generated.resources.Res
+import appnews.composeapp.generated.resources.ic_network_error
+import appnews.composeapp.generated.resources.no_news
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BookmarkScreen(navController: NavController) {
@@ -17,13 +21,25 @@ fun BookmarkScreen(navController: NavController) {
         ShimmerEffect()
     }, onSuccess = { articleList ->
         if (articleList.isEmpty()) {
-            EmptyContent("No Data")
+            EmptyContent(
+                stringResource(Res.string.no_news),
+                icon = Res.drawable.ic_network_error,
+                onRetryClick = {
+
+                }
+            )
         } else {
             ArticleListScreen(articleList = articleList, navController = navController)
         }
 
 
     }, onError = {
-        EmptyContent(it)
+        EmptyContent(
+            stringResource(Res.string.no_news),
+            icon = Res.drawable.ic_network_error,
+            onRetryClick = {
+
+            }
+        )
     })
 }

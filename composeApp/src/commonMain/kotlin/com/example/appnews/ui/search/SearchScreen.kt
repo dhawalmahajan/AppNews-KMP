@@ -10,12 +10,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import appnews.composeapp.generated.resources.Res
+import appnews.composeapp.generated.resources.ic_browse
+import appnews.composeapp.generated.resources.no_news
+import appnews.composeapp.generated.resources.type_to_search
 import com.example.appnews.data.repository.OnlineNewsRepository
 import com.example.appnews.theme.mediumPadding
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
 import com.example.appnews.ui.search.components.SearchBarScreen
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchScreen(rootNavController: NavHostController) {
@@ -34,7 +39,6 @@ fun SearchScreen(rootNavController: NavHostController) {
             },
             onSearch = { query ->
                 if (query.trim().isNotEmpty()) {
-                    println(query)
                     searchViewModel.searchQueryResult(query)
                 }
 
@@ -43,17 +47,38 @@ fun SearchScreen(rootNavController: NavHostController) {
         )
 
         uiState.DisplayResult(onIdle = {
-            EmptyContent("Start searching news")
+            EmptyContent(
+                stringResource(Res.string.type_to_search),
+                icon = Res.drawable.ic_browse,
+                isOnRetryBtnVisible = false,
+
+                )
         }, onLoading = {
             ShimmerEffect()
         }, onSuccess = { articleList ->
             if (articleList.isEmpty()) {
-                EmptyContent("No Data")
+                EmptyContent(
+                    stringResource(Res.string.no_news),
+                    icon = Res.drawable.ic_browse,
+                    onRetryClick = {
+                        if (searchQuery.trim().isNotEmpty()) {
+                            searchViewModel.searchQueryResult(searchQuery)
+                        }
+                    }
+                )
             } else {
                 ArticleListScreen(articleList = articleList, rootNavController)
             }
         }, onError = {
-            EmptyContent(it)
+            EmptyContent(
+                it,
+                icon = Res.drawable.ic_browse,
+                onRetryClick = {
+                    if (searchQuery.trim().isNotEmpty()) {
+                        searchViewModel.searchQueryResult(searchQuery)
+                    }
+                }
+            )
         })
     }
 }
