@@ -24,6 +24,7 @@ import org.jetbrains.compose.resources.StringResource
 import kotlin.random.Random
 
 const val dataStoreFileName = "setting.preferences_pb"
+const val BASE_URL = "https://newsapi.org/v2/"
 
 enum class Type {
     Mobile, Desktop, Web

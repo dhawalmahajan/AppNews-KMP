@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.appnews.data.model.Article
 import com.example.appnews.navigation.Graph
 import com.example.appnews.navigation.NewsRouteScreen
 import com.example.appnews.navigation.SettingRouteScreen
@@ -11,7 +12,7 @@ import com.example.appnews.ui.MainScreen
 import com.example.appnews.ui.articleDetail.ArticleDetailScreen
 import com.example.appnews.ui.settings.SettingScreen
 import com.example.appnews.ui.settings.SettingsViewModel
-import com.example.appnews.utils.articles
+import kotlinx.serialization.json.Json
 
 @Composable
 fun RootNavGraph(settingsViewModel: SettingsViewModel) {
@@ -28,7 +29,12 @@ fun RootNavGraph(settingsViewModel: SettingsViewModel) {
             SettingScreen(rootNavController, settingsViewModel = settingsViewModel)
         }
         composable(route = NewsRouteScreen.newsDetail.route) {
-            ArticleDetailScreen(rootNavController, article = articles[0])
+            rootNavController.previousBackStackEntry?.savedStateHandle?.get<String>("article")
+                ?.let {
+                    val article = Json.decodeFromString<Article>(it)
+                    ArticleDetailScreen(rootNavController, article = article)
+                }
+
         }
     }
 

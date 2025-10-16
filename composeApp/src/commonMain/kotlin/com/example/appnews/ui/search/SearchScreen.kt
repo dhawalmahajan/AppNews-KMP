@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.appnews.data.repository.OnlineNewsRepository
 import com.example.appnews.theme.mediumPadding
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
@@ -21,7 +22,7 @@ fun SearchScreen(rootNavController: NavHostController) {
     var searchQuery by rememberSaveable() {
         mutableStateOf("")
     }
-    val searchViewModel = viewModel { SearchViewModel() }
+    val searchViewModel = viewModel { SearchViewModel(OnlineNewsRepository()) }
     val uiState by searchViewModel.newsStateFlow.collectAsState()
     Column(
         verticalArrangement = Arrangement.spacedBy(mediumPadding)

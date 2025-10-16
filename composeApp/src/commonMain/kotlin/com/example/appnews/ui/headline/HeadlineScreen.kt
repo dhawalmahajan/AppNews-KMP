@@ -5,13 +5,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.appnews.data.repository.OnlineNewsRepository
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
 
 @Composable
 fun HeadlineScreen(rootNavController: NavHostController) {
-    val headlineViewModel = viewModel { HeadlineViewModel() }
+    val headlineViewModel = viewModel { HeadlineViewModel(OnlineNewsRepository()) }
     val uiState by headlineViewModel.newsStateFlow.collectAsState()
     uiState.DisplayResult(onIdle = {}, onLoading = {
         ShimmerEffect()

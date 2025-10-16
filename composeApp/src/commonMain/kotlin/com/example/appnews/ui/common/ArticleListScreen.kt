@@ -14,6 +14,7 @@ import com.example.appnews.theme.xLargePadding
 import com.example.appnews.utils.Type
 import com.example.appnews.utils.getRandomId
 import com.example.appnews.utils.getType
+import kotlinx.serialization.json.Json
 
 @Composable
 fun ArticleListScreen(articleList: List<Article>, navController: NavController) {
@@ -30,7 +31,13 @@ fun ArticleListScreen(articleList: List<Article>, navController: NavController) 
             it.publishedAt + getRandomId()
         }) { article ->
             ArticleItem(article = article, onItemClick = {
-                navController.navigate(NewsRouteScreen.newsDetail.route)
+                val articleStr = Json.encodeToString(article)
+                navController.currentBackStackEntry?.savedStateHandle?.apply {
+                    set("article", articleStr)
+                }
+                navController.navigate(
+                    NewsRouteScreen.newsDetail.route
+                )
             })
         }
     }
