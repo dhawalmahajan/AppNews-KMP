@@ -3,7 +3,12 @@ package com.example.appnews.utils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.room.RoomDatabase
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.example.appnews.data.database.NewsDatabase
 import io.ktor.utils.io.InternalAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.SynchronizedObject
 import kotlinx.coroutines.internal.synchronized
@@ -13,6 +18,7 @@ expect fun getType(): Type
 expect fun getRandomId(): String
 expect fun shareLink(url: String)
 expect fun dataStorePreference(): DataStore<Preferences>
+expect fun getDatabaseBuilder(): RoomDatabase.Builder<NewsDatabase>
 
 object AppSettings {
     private lateinit var dataStore: DataStore<Preferences>
@@ -33,4 +39,11 @@ object AppSettings {
             }
         }
     }
+}
+
+fun getRoomDatabase(builder: RoomDatabase.Builder<NewsDatabase>): NewsDatabase {
+    return builder
+        .setDriver(BundledSQLiteDriver())
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()
 }

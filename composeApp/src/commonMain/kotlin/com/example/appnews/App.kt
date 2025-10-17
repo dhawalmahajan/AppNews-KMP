@@ -10,6 +10,8 @@ import com.example.appnews.theme.NewsAppTheme
 import com.example.appnews.ui.settings.SettingsViewModel
 import com.example.appnews.utils.AppPreference
 import com.example.appnews.utils.dataStorePreference
+import com.example.appnews.utils.getDatabaseBuilder
+import com.example.appnews.utils.getRoomDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -21,9 +23,11 @@ fun App() {
     val settingsViewModel = viewModel {
         SettingsViewModel(appPreference)
     }
-
+    val newsDao = remember {
+        getRoomDatabase(getDatabaseBuilder()).newsDao()
+    }
     val currentTheme by settingsViewModel.currentTheme.collectAsState()
     NewsAppTheme(currentTheme) {
-        RootNavGraph(settingsViewModel = settingsViewModel)
+        RootNavGraph(settingsViewModel = settingsViewModel, newsDao)
     }
 }

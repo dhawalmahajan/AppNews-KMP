@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.ic_bookmark_outlined
@@ -32,6 +33,7 @@ import appnews.composeapp.generated.resources.logo
 import appnews.composeapp.generated.resources.news_detail
 import appnews.composeapp.generated.resources.setting
 import coil3.compose.AsyncImage
+import com.example.appnews.data.database.NewsDao
 import com.example.appnews.data.model.Article
 import com.example.appnews.theme.detailImageSize
 import com.example.appnews.theme.xLargePadding
@@ -41,7 +43,14 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleDetailScreen(navController: NavController, article: Article) {
+fun ArticleDetailScreen(
+    navController: NavController,
+    article: Article,
+    newsDao: NewsDao
+) {
+    val articleDetailViewModel = viewModel {
+        ArticleDetailViewModel(newsDao)
+    }
     val uriHandler = LocalUriHandler.current
     Scaffold(
         topBar = {
@@ -89,7 +98,9 @@ fun ArticleDetailScreen(navController: NavController, article: Article) {
 
                             )
                     }
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        articleDetailViewModel.bookmarkArticle(article)
+                    }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_bookmark_outlined),
                             contentDescription = null,

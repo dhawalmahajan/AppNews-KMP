@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.setting
+import com.example.appnews.data.database.NewsDao
 import com.example.appnews.navigation.NewsBottomNavigationBar
 import com.example.appnews.navigation.SettingRouteScreen
 import com.example.appnews.navigation.graphs.MainNavGraph
@@ -34,7 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun MainScreen(rootNavController: NavHostController) {
+fun MainScreen(rootNavController: NavHostController, newsDao: NewsDao) {
     val homeNavController = rememberNavController()
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
     var previousRoute by rememberSaveable {
@@ -118,7 +119,8 @@ fun MainScreen(rootNavController: NavHostController) {
         MainNavGraph(
             rootNavController = rootNavController,
             homeNavController = homeNavController,
-            paddingValues = it
+            paddingValues = it,
+            newsDao
         )
     }
 

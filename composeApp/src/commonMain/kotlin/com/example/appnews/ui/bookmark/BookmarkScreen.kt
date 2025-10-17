@@ -8,14 +8,21 @@ import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.ic_network_error
 import appnews.composeapp.generated.resources.no_news
+import com.example.appnews.data.database.NewsDao
+import com.example.appnews.data.repository.LocalNewsRepository
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun BookmarkScreen(navController: NavController) {
-    val bookmarkViewModel = viewModel { BookmarkViewModel() }
+fun BookmarkScreen(navController: NavController, newsDao: NewsDao) {
+    val bookmarkViewModel =
+        viewModel {
+            BookmarkViewModel(
+                LocalNewsRepository(newsDao)
+            )
+        }
     val uiState by bookmarkViewModel.newsStateFlow.collectAsState()
     uiState.DisplayResult(onIdle = {}, onLoading = {
         ShimmerEffect()
@@ -24,9 +31,7 @@ fun BookmarkScreen(navController: NavController) {
             EmptyContent(
                 stringResource(Res.string.no_news),
                 icon = Res.drawable.ic_network_error,
-                onRetryClick = {
-
-                }
+                isOnRetryBtnVisible = false
             )
         } else {
             ArticleListScreen(articleList = articleList, navController = navController)
@@ -38,7 +43,7 @@ fun BookmarkScreen(navController: NavController) {
             stringResource(Res.string.no_news),
             icon = Res.drawable.ic_network_error,
             onRetryClick = {
-
+                bookmarkViewModel.getHeadline()
             }
         )
     })
