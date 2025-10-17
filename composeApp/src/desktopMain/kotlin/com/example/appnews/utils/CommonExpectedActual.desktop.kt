@@ -10,7 +10,7 @@ import java.awt.datatransfer.StringSelection
 import java.io.File
 import java.util.UUID
 
-actual fun getType(): com.example.appnews.utils.Type {
+actual fun getType(): Type {
     return Type.Desktop
 }
 

@@ -1,6 +1,6 @@
 package com.example.appnews.data.repository
 
-import com.coding.meet.newsapp.BuildKonfig
+import com.example.appnews.BuildKonfig
 import com.example.appnews.utils.BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout

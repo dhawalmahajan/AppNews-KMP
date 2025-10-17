@@ -127,11 +127,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.coding.meet.newsapp"
+    namespace = "com.example.appnews"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.coding.meet.newsapp"
+        applicationId = "com.example.appnews"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -163,17 +163,17 @@ room {
 }
 compose.desktop {
     application {
-        mainClass = "com.coding.meet.newsapp.MainKt"
+        mainClass = "com.example.appnews.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.coding.meet.newsapp"
+            packageName = "com.example.appnews"
             packageVersion = "1.0.0"
         }
     }
 }
 buildkonfig {
-    packageName = "com.coding.meet.newsapp"
+    packageName = "com.example.appnews"
 
     val localProperties =
         Properties().apply {

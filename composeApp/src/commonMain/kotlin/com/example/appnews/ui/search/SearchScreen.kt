@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchScreen(rootNavController: NavHostController) {
-    var searchQuery by rememberSaveable() {
+    var searchQuery by rememberSaveable {
         mutableStateOf("")
     }
     val searchViewModel = viewModel { SearchViewModel(OnlineNewsRepository()) }

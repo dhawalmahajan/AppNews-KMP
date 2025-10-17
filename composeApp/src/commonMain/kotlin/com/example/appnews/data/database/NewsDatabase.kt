@@ -9,11 +9,8 @@ import com.example.appnews.data.model.Article
 @TypeConverters(SourceTypeConverter::class)
 abstract class NewsDatabase : RoomDatabase(), DB {
     abstract fun newsDao(): NewsDao
-    override fun clearAllTables() {
-        super.clearAllTables()
-    }
 }
 
 interface DB {
-    fun clearAllTables(): Unit {}
+    fun clearAllTables() {}
 }
