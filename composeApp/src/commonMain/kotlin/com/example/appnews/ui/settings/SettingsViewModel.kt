@@ -2,6 +2,7 @@ package com.example.appnews.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.appnews.data.repository.LocalNewsRepository
 import com.example.appnews.utils.AppPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -11,12 +12,21 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class SettingsViewModel(private val appPreference: AppPreference) : ViewModel() {
+class SettingsViewModel(
+    private val localNewsRepository: LocalNewsRepository,
+    private val appPreference: AppPreference
+) : ViewModel() {
     private val _currentTheme: MutableStateFlow<String?> = MutableStateFlow(null)
     val currentTheme = _currentTheme.asStateFlow()
 
     init {
         currentThemeGet()
+    }
+
+    fun deleteAllBookmarks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            localNewsRepository.deleteAllBookmarkedArticles()
+        }
     }
 
     private fun currentThemeGet() = runBlocking {

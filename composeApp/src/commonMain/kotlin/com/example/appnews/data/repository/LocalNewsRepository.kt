@@ -11,5 +11,16 @@ class LocalNewsRepository(private val newsDao: NewsDao) {
         newsDao.upsert(article)
     }
 
+    suspend fun delete(article: Article) {
+        newsDao.delete(article)
+    }
+
+    suspend fun deleteAllBookmarkedArticles() {
+        newsDao.deleteAllBookmarkedArticles()
+    }
+
     fun getArticles() = newsDao.getArticles().flowOn(Dispatchers.IO)
+    suspend fun getArticle(articleId: String): Article? {
+        return newsDao.getArticle(articleId)
+    }
 }

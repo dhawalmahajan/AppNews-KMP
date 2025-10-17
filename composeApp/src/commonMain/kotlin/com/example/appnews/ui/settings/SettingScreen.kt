@@ -63,6 +63,7 @@ fun SettingScreen(rootNavController: NavHostController, settingsViewModel: Setti
             DeleteBookmarkDialog(onDismissRequest = {
                 showDeleteBookmarkDialog = false
             }, onDeleteBookmark = {
+                settingsViewModel.deleteAllBookmarks()
                 showDeleteBookmarkDialog = false
             })
         }

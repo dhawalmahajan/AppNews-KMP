@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
+import appnews.composeapp.generated.resources.ic_bookmark_filled
 import appnews.composeapp.generated.resources.ic_bookmark_outlined
 import appnews.composeapp.generated.resources.ic_browse
 import appnews.composeapp.generated.resources.logo
@@ -50,6 +52,11 @@ fun ArticleDetailScreen(
 ) {
     val articleDetailViewModel = viewModel {
         ArticleDetailViewModel(newsDao)
+    }
+    LaunchedEffect(
+        Unit
+    ) {
+        articleDetailViewModel.isArticleBookmarked(article)
     }
     val uriHandler = LocalUriHandler.current
     Scaffold(
@@ -102,7 +109,9 @@ fun ArticleDetailScreen(
                         articleDetailViewModel.bookmarkArticle(article)
                     }) {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_bookmark_outlined),
+                            painter = painterResource(
+                                if (articleDetailViewModel.isBookmarked) Res.drawable.ic_bookmark_filled else Res.drawable.ic_bookmark_outlined
+                            ),
                             contentDescription = null,
 
                             )
