@@ -26,7 +26,7 @@ class SearchViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _newsStateFlow.emit(Resource.Loading)
             try {
-                val httpResponse = onlineNewsRepository.getNews()
+                val httpResponse = onlineNewsRepository.searchNews(query)
                 if (httpResponse.status.value in 200..299) {
                     val newsResponse =
                         httpResponse.body<NewsResponse>()

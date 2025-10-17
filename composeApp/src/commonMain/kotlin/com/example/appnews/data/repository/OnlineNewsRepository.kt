@@ -52,10 +52,11 @@ class OnlineNewsRepository {
         }
     }
 
-    suspend fun getNews(): HttpResponse {
+    suspend fun getNews(category: String): HttpResponse {
         return httpClient.get {
             url("top-headlines")
             parameter("country", "us")
+            parameter("category", category)
             parameter("apiKey", BuildKonfig.API_KEY)
         }
     }
