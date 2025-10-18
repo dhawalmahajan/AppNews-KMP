@@ -1,76 +1,68 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+# AppNews KMM
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
-### Build and Run Android Application
+**AppNews** is a modern, cross-platform news application built with **Kotlin Multiplatform**. It demonstrates how to share business logic, data handling, and database code between Android and iOS while maintaining a fully native UI/UX on each platform.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+The core of the application, including networking, data persistence, and view models, is written in a shared Kotlin module. The UI is then built using the latest native declarative frameworks: **Jetpack Compose** for Android and **SwiftUI** for iOS.
 
-### Build and Run Desktop (JVM) Application
+## ✨ Features
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+- **Cross-Platform Logic**: A single, shared codebase for business logic, networking, and data models.
+- **Native UI & Performance**: No-compromise user experience using Jetpack Compose on Android and SwiftUI on iOS.
+- **Offline First**: Caches articles for offline reading using a multiplatform database setup.
+- **Clean & Scalable Architecture**: Follows modern architectural patterns (MVVM) and dependency injection to keep the code organized and maintainable.
+- **Asynchronous Operations**: Uses Kotlin Coroutines for smooth and responsive background data fetching.
 
-### Build and Run Web Application
+## 🛠️ Tech Stack & Architecture
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-- for the JS target (slower, supports older browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-    ```
+### Shared Code (`commonMain`)
+- **[Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)**: The core technology for code sharing.
+- **[Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)**: For managing background threads and asynchronous tasks.
+- **[Ktor Client](https://ktor.io/docs/client-create-new-application.html)**: For making network requests to the news API.
+- **[Room](https://developer.android.com/training/data-storage/room)**: For local database storage, configured for both Android (via KSP) and iOS (via native SQLite driver).
+- **[Kotlinx Serialization](https://github.com/Kotlin/kotlinx.serialization)**: For parsing JSON data into type-safe Kotlin objects.
+- **[Koin](https://insert-koin.io/)**: For dependency injection across the shared module and native platforms.
 
-### Build and Run iOS Application
+### Android (`androidMain`)
+- **UI**: [Jetpack Compose](https://developer.android.com/jetpack/compose) for a declarative, modern UI.
+- **Architecture**: MVVM (Model-View-ViewModel).
+- **Libraries**: Jetpack ViewModel, Navigation for Compose.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### iOS (`iosMain` & `iosApp`)
+- **UI**: [SwiftUI](https://developer.apple.com/xcode/swiftui/) for a declarative UI native to the Apple ecosystem.
+- **Architecture**: MVVM-like pattern, with SwiftUI views observing the shared ViewModels.
+- **Integration**: Uses an `.xcframework` generated by Gradle to bridge the shared Kotlin code with the Swift-based UI.
 
----
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## 🚀 Getting Started
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+### Prerequisites
+
+- **Android Studio** (latest version, e.g., Iguana or newer)
+- **Xcode** (latest version)
+- **Kotlin Multiplatform Mobile plugin** in Android Studio
+- **JDK 17** or higher
+
+### Build Instructions
+
+#### 1. Clone the Repository
+
+
+#### 2. Configure the iOS Team ID
+Before opening in Xcode, you need to set your Apple Developer Team ID.
+
+Open the file `iosApp/Configuration/Config.xcconfig` and replace the empty `TEAM_ID` with your own.
+
+This is required for code signing the iOS app.
+
+#### 3. Build and Run on Android
+1. Open the project's root directory in Android Studio.
+2. Wait for Gradle to sync and download all dependencies.
+3. Select the `composeApp` run configuration.
+4. Choose an Android emulator or connect a physical device.
+5. Click **Run** (▶️).
+
+#### 4. Build and Run on iOS
+1. Open the iOS project in Xcode by running the following command in your terminal:
+   
