@@ -29,7 +29,7 @@ import appnews.composeapp.generated.resources.setting
 import appnews.composeapp.generated.resources.type_to_search
 import com.example.appnews.di.koinViewModel
 import com.example.appnews.navigation.SettingRouteScreen
-import com.example.appnews.theme.mediumPadding
+import com.example.appnews.theme.xSmallPadding
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
@@ -47,7 +47,7 @@ fun SearchScreen(rootNavController: NavHostController, paddingValues: PaddingVal
     val uiState by searchViewModel.newsStateFlow.collectAsState()
     Column(
         modifier = Modifier.fillMaxSize().padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(mediumPadding)
+        verticalArrangement = Arrangement.spacedBy(xSmallPadding)
     ) {
         TopAppBar(
             title = {

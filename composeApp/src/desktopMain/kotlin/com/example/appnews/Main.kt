@@ -6,7 +6,6 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.example.appnews.di.initKoin
-import java.awt.Dimension
 
 fun main() = application {
     initKoin()
@@ -17,7 +16,7 @@ fun main() = application {
             position = WindowPosition(Alignment.Center),
         )
     ) {
-        window.minimumSize = Dimension(1200, 768)
+//        window.minimumSize = Dimension(1200, 768)
         App()
     }
 }

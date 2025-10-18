@@ -15,70 +15,28 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import com.example.appnews.theme.cardMinSize
 import com.example.appnews.theme.imageSize
 import com.example.appnews.theme.mediumPadding
-import com.example.appnews.theme.shimmer
-import com.example.appnews.theme.xLargePadding
-import com.example.appnews.theme.xxLargePadding
+import com.example.appnews.theme.shimmerColors
+import com.example.appnews.theme.xSmallPadding
 import com.example.appnews.theme.xxSmallPadding
 import com.example.appnews.theme.xxxLargePadding
-import com.example.appnews.utils.Type
-import com.example.appnews.utils.getType
 
 
 @Composable
 fun ShimmerEffect() {
-    val isDesktop = remember {
-        getType() == Type.Desktop
-    }
-    LazyVerticalGrid(
-        GridCells.Fixed(if (isDesktop) 3 else 1),
-        verticalArrangement = Arrangement.spacedBy(xLargePadding),
-        horizontalArrangement = Arrangement.spacedBy(xLargePadding),
-        contentPadding = PaddingValues(xLargePadding),
-        userScrollEnabled = false
-    ) {
-        repeat(12) {
-            item {
-                ArticleCardShimmerEffect()
-            }
-        }
-
-    }
-}
-
-@Composable
-fun ArticleCardShimmerEffect() {
-    Row(horizontalArrangement = Arrangement.spacedBy(mediumPadding)) {
-        Box(
-            modifier = Modifier
-                .size(imageSize)
-                .shimmerEffect()
-        )
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(xxSmallPadding)
-        ) {
-            Box(modifier = Modifier.fillMaxSize().height(xxxLargePadding).shimmerEffect())
-
-            Box(modifier = Modifier.fillMaxSize().height(xxLargePadding).shimmerEffect())
-            Box(modifier = Modifier.fillMaxSize().height(mediumPadding).shimmerEffect())
-        }
-    }
-}
-
-fun Modifier.shimmerEffect() = composed {
     val transition = rememberInfiniteTransition()
     val translateAnimation by transition.animateFloat(
         initialValue = 0f,
@@ -90,18 +48,62 @@ fun Modifier.shimmerEffect() = composed {
         )
     )
 
-    val shimmerColors = listOf<Color>(
-        shimmer.copy(0.3f),
-        shimmer.copy(0.5f),
-        shimmer.copy(1.0f),
-        shimmer.copy(0.5f),
-        shimmer.copy(0.3f),
-    )
-    val brush = Brush.linearGradient(
-        colors = shimmerColors,
-        start = Offset(translateAnimation, translateAnimation),
-        end = Offset(translateAnimation + 100f, translateAnimation + 100f),
-        tileMode = TileMode.Mirror
-    )
-    background(brush)
+
+    val brush by remember {
+        derivedStateOf {
+            Brush.linearGradient(
+                colors = shimmerColors,
+                start = Offset(translateAnimation, translateAnimation),
+                end = Offset(translateAnimation + 100f, translateAnimation + 100f),
+                tileMode = TileMode.Mirror
+            )
+        }
+    }
+
+
+    LazyVerticalStaggeredGrid(
+        StaggeredGridCells.Adaptive(cardMinSize),
+        verticalItemSpacing = mediumPadding,
+        horizontalArrangement = Arrangement.spacedBy(mediumPadding),
+        contentPadding = PaddingValues(mediumPadding),
+        userScrollEnabled = false
+    ) {
+        repeat(30) {
+            item {
+                ArticleCardShimmerEffect(brush)
+            }
+        }
+
+    }
 }
+
+@Composable
+fun ArticleCardShimmerEffect(brush: Brush) {
+    Row(horizontalArrangement = Arrangement.spacedBy(xSmallPadding)) {
+        Box(
+            modifier = Modifier
+                .size(imageSize)
+                .background(brush, shape = RoundedCornerShape(10))
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(xxSmallPadding)
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize().height(xxxLargePadding)
+                    .background(brush, shape = RoundedCornerShape(10))
+            )
+
+            Box(
+                modifier = Modifier.fillMaxSize().height(xxxLargePadding)
+                    .background(brush, shape = RoundedCornerShape(10))
+            )
+
+            Box(
+                modifier = Modifier.fillMaxSize().height(xxxLargePadding)
+                    .background(brush, shape = RoundedCornerShape(10))
+            )
+        }
+    }
+}
+

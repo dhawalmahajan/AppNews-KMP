@@ -3,9 +3,11 @@ package com.example.appnews.ui.articleDetail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -36,7 +39,7 @@ import appnews.composeapp.generated.resources.setting
 import coil3.compose.AsyncImage
 import com.example.appnews.data.model.Article
 import com.example.appnews.di.koinViewModel
-import com.example.appnews.theme.detailImageSize
+import com.example.appnews.theme.mediumPadding
 import com.example.appnews.theme.xLargePadding
 import com.example.appnews.utils.shareLink
 import org.jetbrains.compose.resources.painterResource
@@ -122,21 +125,29 @@ fun ArticleDetailScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
             contentPadding = PaddingValues(
-                xLargePadding
+                horizontal =
+                    xLargePadding
             ),
-            verticalArrangement = Arrangement.spacedBy(xLargePadding)
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(mediumPadding)
         ) {
             item {
-                AsyncImage(
-                    modifier = Modifier
-                        .height(detailImageSize)
-                        .clip(MaterialTheme.shapes.large)
-                        .background(Color.Gray),
-                    model = article.urlToImage,
-                    error = painterResource(Res.drawable.logo),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    AsyncImage(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .clip(MaterialTheme.shapes.large)
+                            .background(Color.Gray),
+                        model = article.urlToImage,
+                        error = painterResource(Res.drawable.logo),
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = null
+                    )
+                }
+
             }
             item {
                 Text(

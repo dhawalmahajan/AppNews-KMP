@@ -2,30 +2,28 @@ package com.example.appnews.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import com.example.appnews.data.model.Article
 import com.example.appnews.navigation.NewsRouteScreen
-import com.example.appnews.theme.xLargePadding
-import com.example.appnews.utils.Type
+import com.example.appnews.theme.cardMinSize
+import com.example.appnews.theme.mediumPadding
 import com.example.appnews.utils.getRandomId
-import com.example.appnews.utils.getType
 import kotlinx.serialization.json.Json
 
 @Composable
 fun ArticleListScreen(articleList: List<Article>, navController: NavController) {
-    val isDesktop = remember {
-        getType() == Type.Desktop
-    }
-    LazyVerticalGrid(
-        GridCells.Fixed(if (isDesktop) 3 else 1),
-        verticalArrangement = Arrangement.spacedBy(xLargePadding),
-        horizontalArrangement = Arrangement.spacedBy(xLargePadding),
-        contentPadding = PaddingValues(xLargePadding)
+
+    LazyVerticalStaggeredGrid(
+        columns =
+            StaggeredGridCells.Adaptive(cardMinSize),
+        verticalItemSpacing = mediumPadding,
+
+        horizontalArrangement = Arrangement.spacedBy(mediumPadding),
+        contentPadding = PaddingValues(mediumPadding)
     ) {
         items(articleList, key = {
             it.publishedAt + getRandomId()
