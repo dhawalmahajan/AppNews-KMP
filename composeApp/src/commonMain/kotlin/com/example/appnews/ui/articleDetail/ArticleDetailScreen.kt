@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,6 @@ import com.example.appnews.di.koinViewModel
 import com.example.appnews.theme.detailImageSize
 import com.example.appnews.theme.xLargePadding
 import com.example.appnews.utils.shareLink
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -51,7 +49,6 @@ fun ArticleDetailScreen(
     article: Article,
 ) {
     val articleDetailViewModel = koinViewModel<ArticleDetailViewModel>()
-    val rememberScope = rememberCoroutineScope()
     LaunchedEffect(
         Unit
     ) {
@@ -106,9 +103,7 @@ fun ArticleDetailScreen(
                             )
                     }
                     IconButton(onClick = {
-                        rememberScope.launch {
-                            articleDetailViewModel.bookmarkArticle(article)
-                        }
+                        articleDetailViewModel.bookmarkArticle(article)
 
                     }) {
                         Icon(
