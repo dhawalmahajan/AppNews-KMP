@@ -3,26 +3,20 @@ package com.example.appnews.ui.bookmark
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.ic_network_error
 import appnews.composeapp.generated.resources.no_news
-import com.example.appnews.data.database.NewsDao
-import com.example.appnews.data.repository.LocalNewsRepository
+import com.example.appnews.di.koinViewModel
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
 import com.example.appnews.ui.common.ShimmerEffect
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun BookmarkScreen(navController: NavController, newsDao: NewsDao) {
+fun BookmarkScreen(navController: NavController) {
     val bookmarkViewModel =
-        viewModel {
-            BookmarkViewModel(
-                LocalNewsRepository(newsDao)
-            )
-        }
+        koinViewModel<BookmarkViewModel>()
     val uiState by bookmarkViewModel.newsStateFlow.collectAsState()
     uiState.DisplayResult(onIdle = {}, onLoading = {
         ShimmerEffect()

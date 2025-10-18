@@ -9,9 +9,7 @@ import com.example.appnews.di.initKoin
 import java.awt.Dimension
 
 fun main() = application {
-    initKoin {
-
-    }
+    initKoin()
     Window(
         onCloseRequest = ::exitApplication,
         title = "AppNews",

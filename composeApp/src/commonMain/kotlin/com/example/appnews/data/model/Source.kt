@@ -9,5 +9,5 @@ data class Source(
     @SerialName("id")
     val id: String?,
     @SerialName("name")
-    val name: String
+    val name: String? = ""
 )

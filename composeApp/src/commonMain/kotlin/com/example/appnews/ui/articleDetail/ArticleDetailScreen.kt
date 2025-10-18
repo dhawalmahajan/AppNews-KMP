@@ -19,13 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.ic_bookmark_filled
@@ -35,11 +35,12 @@ import appnews.composeapp.generated.resources.logo
 import appnews.composeapp.generated.resources.news_detail
 import appnews.composeapp.generated.resources.setting
 import coil3.compose.AsyncImage
-import com.example.appnews.data.database.NewsDao
 import com.example.appnews.data.model.Article
+import com.example.appnews.di.koinViewModel
 import com.example.appnews.theme.detailImageSize
 import com.example.appnews.theme.xLargePadding
 import com.example.appnews.utils.shareLink
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -48,16 +49,15 @@ import org.jetbrains.compose.resources.stringResource
 fun ArticleDetailScreen(
     navController: NavController,
     article: Article,
-    newsDao: NewsDao
 ) {
-    val articleDetailViewModel = viewModel {
-        ArticleDetailViewModel(newsDao)
-    }
+    val articleDetailViewModel = koinViewModel<ArticleDetailViewModel>()
+    val rememberScope = rememberCoroutineScope()
     LaunchedEffect(
         Unit
     ) {
         articleDetailViewModel.isArticleBookmarked(article)
     }
+
     val uriHandler = LocalUriHandler.current
     Scaffold(
         topBar = {
@@ -106,7 +106,10 @@ fun ArticleDetailScreen(
                             )
                     }
                     IconButton(onClick = {
-                        articleDetailViewModel.bookmarkArticle(article)
+                        rememberScope.launch {
+                            articleDetailViewModel.bookmarkArticle(article)
+                        }
+
                     }) {
                         Icon(
                             painter = painterResource(

@@ -35,7 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun MainScreen(rootNavController: NavHostController, newsDao: NewsDao) {
+fun MainScreen(rootNavController: NavHostController) {
     val homeNavController = rememberNavController()
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
     var previousRoute by rememberSaveable {
@@ -120,7 +120,6 @@ fun MainScreen(rootNavController: NavHostController, newsDao: NewsDao) {
             rootNavController = rootNavController,
             homeNavController = homeNavController,
             paddingValues = it,
-            newsDao
         )
     }
 

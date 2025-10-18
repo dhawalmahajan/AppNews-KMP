@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.appnews.data.database.NewsDao
 import com.example.appnews.data.model.Article
 import com.example.appnews.navigation.Graph
 import com.example.appnews.navigation.NewsRouteScreen
@@ -16,7 +15,7 @@ import com.example.appnews.ui.settings.SettingsViewModel
 import kotlinx.serialization.json.Json
 
 @Composable
-fun RootNavGraph(settingsViewModel: SettingsViewModel, newsDao: NewsDao) {
+fun RootNavGraph(settingsViewModel: SettingsViewModel) {
     val rootNavController = rememberNavController()
     NavHost(
         navController = rootNavController,
@@ -24,7 +23,7 @@ fun RootNavGraph(settingsViewModel: SettingsViewModel, newsDao: NewsDao) {
         startDestination = Graph.MainScreenGraph
     ) {
         composable(route = Graph.MainScreenGraph) {
-            MainScreen(rootNavController, newsDao)
+            MainScreen(rootNavController)
         }
         composable(route = SettingRouteScreen.Setting.route) {
             SettingScreen(rootNavController, settingsViewModel = settingsViewModel)
@@ -33,7 +32,7 @@ fun RootNavGraph(settingsViewModel: SettingsViewModel, newsDao: NewsDao) {
             rootNavController.previousBackStackEntry?.savedStateHandle?.get<String>("article")
                 ?.let {
                     val article = Json.decodeFromString<Article>(it)
-                    ArticleDetailScreen(rootNavController, article = article, newsDao)
+                    ArticleDetailScreen(rootNavController, article = article)
                 }
 
         }

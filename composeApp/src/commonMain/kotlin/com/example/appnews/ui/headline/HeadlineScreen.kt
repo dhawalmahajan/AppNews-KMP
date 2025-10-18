@@ -13,12 +13,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import appnews.composeapp.generated.resources.Res
 import appnews.composeapp.generated.resources.ic_browse
 import appnews.composeapp.generated.resources.no_news
-import com.example.appnews.data.repository.OnlineNewsRepository
+import com.example.appnews.di.koinViewModel
 import com.example.appnews.theme.xSmallPadding
 import com.example.appnews.ui.common.ArticleListScreen
 import com.example.appnews.ui.common.EmptyContent
@@ -28,7 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HeadlineScreen(rootNavController: NavHostController) {
-    val headlineViewModel = viewModel { HeadlineViewModel(OnlineNewsRepository()) }
+    val headlineViewModel = koinViewModel<HeadlineViewModel>()
     val uiState by headlineViewModel.newsStateFlow.collectAsState()
 
     Column {
